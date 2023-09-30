@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\V1\AlbumController;
+use App\Http\Controllers\V1\ImageManipulationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +26,12 @@ Route::get('employees/{id}', [EmployeeController::class, 'getEmployeeId']);
 Route::post('addEmployee', [EmployeeController::class, 'addEmployee']);
 Route::put('updateEmployee/{id}', [EmployeeController::class, 'updateEmployee']);
 Route::delete('deleteEmployee/{id}', [EmployeeController::class, 'deleteEmployee']);
+
+Route::prefix("v1")->group(function(){
+    Route::apiResource("album", AlbumController::class);
+    Route::get('image', [ImageManipulationController::class, 'index']);
+    Route::get('image/by-album/{by_album}', [ImageManipulationController::class, 'byAlbum']);
+    Route::get('image/{image}', [ImageManipulationController::class, 'show']);
+    Route::post('image/resize', [ImageManipulationController::class, 'resize']);
+    Route::delete('image/{image}', [ImageManipulationController::class, 'destroy']);
+});
